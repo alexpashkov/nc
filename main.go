@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"github.com/goware/prefixer"
 	"github.com/pkg/errors"
 	"io"
 	"log"
@@ -51,7 +53,9 @@ func serve(address string) error {
 
 func handleConn(conn net.Conn) error {
 	defer conn.Close()
-	_, err := io.Copy(os.Stdout, conn)
+	defer fmt.Printf("%s disconnected", conn.RemoteAddr())
+	log.Printf("%s connected", conn.RemoteAddr())
+	_, err := io.Copy(os.Stdout, prefixer.New(conn, fmt.Sprintf("%s: ", conn.RemoteAddr())))
 	return err
 }
 
