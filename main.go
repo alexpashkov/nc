@@ -27,7 +27,7 @@ func main() {
 		}
 	} else {
 		log.Printf("writing to %s", addr)
-		if err := write(addr); err != nil {
+		if err := write(addr, timeout); err != nil {
 			log.Fatal(errors.Wrap(err, "writing error"))
 		}
 	}
